@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load widget_tweaks %}
+
 {% block content %}
 
 	<h1>Salesforce package.xml Builder</h1>
@@ -19,11 +21,12 @@
 				{% if messages %}
 
 					<tr>
-						<td colspan="2" style="color:#ff6600;font-weight:bold;">
-						    {% for message in messages %}
-						    	{{ message }}<br/>
-						    {% endfor %}
-						    <br/>
+						<td colspan="2">
+							<div role="alert" class="alert alert-danger">
+							    {% for message in messages %}
+							    	{{ message }}<br/>
+							    {% endfor %}
+						    </div>
 						</td>
 					</tr>
 					
@@ -52,7 +55,20 @@
 						</tr>
 
 						<tr>
-							<td colspan="2"></td>
+							<td colspan="2"><br/></td>
+						</tr>
+
+						<tr>
+							<td width="150">
+								<strong>Component Option:</strong>
+							</td>
+							<td>
+								{% render_field login_form.package_option class="form-control" %}
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2"><br/></td>
 						</tr>
 
 					<tr>
@@ -65,17 +81,12 @@
 				{% else %}
 
 				<tr>
-					<td width="75" style="color:#ff6600;font-weight:bold;">
-						<h2>Error: </h2>
-					</td>
-					<td style="color:#900;">
-						{{ error_message }}
-					</td>
-				</tr>
-
-				<tr>
-					<td width="75" colspan="2">
-						Please go <a href="/">back</a> and try again.
+					<td colspan="2">
+						<div role="alert" class="alert alert-danger">
+							{{ error_message }}
+							<br/><br/>
+							Please go <a href="/">back</a> and try again.
+						</div>
 					</td>
 				</tr>
 
@@ -107,7 +118,10 @@
 			</div>
 
 			<div style="display:none;">
-				{{ login_form.as_p }}
+				{{ login_form.environment }}
+				{{ login_form.access_token }}
+				{{ login_form.instance_url }}
+				{{ login_form.org_id }}
 			</div>
 
 		</form>

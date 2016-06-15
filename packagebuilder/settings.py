@@ -13,6 +13,8 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 
+APP_NAME = os.environ['APP_NAME']
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
@@ -25,7 +27,7 @@ TEMPLATE_DEBUG = DEBUG
 THUMBNAIL_DEBUG = DEBUG
 
 ADMINS = (
-    ('FirstName LastName', 'Email Address'),
+    (os.environ['ADMIN_NAME'], os.environ['ADMIN_EMAIL']),
 )
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -43,6 +45,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'buildpackage',
+    'widget_tweaks',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -51,7 +54,13 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
+# Add in request context processor
+from django.conf import global_settings
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+    'django.core.context_processors.request',
 )
 
 ROOT_URLCONF = 'packagebuilder.urls'
@@ -98,6 +107,43 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_PATH, 'static'),
 )
 
-SALESFORCE_CONSUMER_KEY = 'SALESFORCE_CLIENT_KEY'
-SALESFORCE_CONSUMER_SECRET = 'SALESFORCE_CLIENT_SECRET'
-SALESFORCE_REDIRECT_URI = 'https://packagebuilder.herokuapp.com/oauth_response'
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+SALESFORCE_CONSUMER_KEY = os.environ['SALESFORCE_CONSUMER_KEY']
+SALESFORCE_CONSUMER_SECRET = os.environ['SALESFORCE_CONSUMER_SECRET']
+SALESFORCE_REDIRECT_URI = 'https://' + APP_NAME + '.herokuapp.com/oauth_response'
+SALESFORCE_API_VERSION = int(os.environ['SALESFORCE_API_VERSION'])
+
+# A sample logging configuration. The only tangible logging
+# performed by this configuration is to send an email to
+# the site admins on every HTTP 500 error when DEBUG=False.
+# See http://docs.djangoproject.com/en/dev/topics/logging for
+# more details on how to customize your logging configuration.
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR + '/debug.log',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins', 'file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}

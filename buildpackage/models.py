@@ -1,8 +1,23 @@
 from django.db import models
 
 class Package(models.Model):
+	random_id = models.CharField(db_index=True,max_length=255, blank=True)
+	created_date = models.DateTimeField(null=True,blank=True)
+	finished_date = models.DateTimeField(null=True,blank=True)
 	username = models.CharField(max_length=255)
 	api_version = models.CharField(max_length=255)
+	access_token = models.CharField(max_length=255, blank=True)
+	instance_url = models.CharField(max_length=255, blank=True)
+
+	# Options for including packages or not
+	PACKAGE_CHOICES = (
+		('all','All Components'),
+		('unmanaged','Exclude Managed'),
+		('none','No Packaged Components'),
+	)
+
+	component_option = models.CharField(max_length=255, choices=PACKAGE_CHOICES)
+
 	package = models.TextField(blank=True)
 	status = models.CharField(max_length=255, blank=True)
 	error = models.TextField(blank=True)

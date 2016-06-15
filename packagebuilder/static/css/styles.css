@@ -2,13 +2,6 @@ body {
     font-family: "HelveticaNeueW02-45Ligh", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Nimbus Sans L", sans-serif;
     color: #999a9b;
 }
-#wrapper {
-    width: 100%;
-}
-#container {
-    width: 600px;
-    margin: 30px auto;
-}
 input[type="text"], input[type="password"] {
     width: 250px;
     padding: 5px;
@@ -16,10 +9,6 @@ input[type="text"], input[type="password"] {
     font-size: 0.9em;
     padding-left: 0.4em;
     max-width: 19em;
-}
-label {
-    font-size: 20px;
-    color: #999a9b !important;
 }
 input[type="submit"], button {
     cursor: pointer;
@@ -44,13 +33,16 @@ h1 {
     font-family: "HelveticaNeueW02-Thin", "HelveticaNeueW02-45Ligh", "HelveticaNeue-Light", "Helvetica Neue Light", "HelveticaNeueW02-45Ligh", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Nimbus Sans L", sans-serif;
     font-size: 2em;
     line-height: 1.1em;
-    color: #ff6600;
+    color: #ff6600 !important;
 }
 h2 {
     font-family: "HelveticaNeueW02-Thin", "HelveticaNeueW02-45Ligh", "HelveticaNeue-Light", "Helvetica Neue Light", "HelveticaNeueW02-45Ligh", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Nimbus Sans L", sans-serif;
     font-size: 1.5em;
     line-height: 1.1em;
-    color: #ff6600;
+    color: #ff6600 !important;
+}
+h3 {
+    color: #ff6600 !important;
 }
 #mti_wfs_colophon {
     display: none !important;
@@ -100,4 +92,8 @@ h2 {
 
 .error p {
     color: #900;
+}
+
+.info_icon {
+    cursor:pointer;
 }
